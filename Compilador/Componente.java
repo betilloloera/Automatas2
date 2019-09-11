@@ -14,12 +14,13 @@ public class Componente
 	final static int MODIFICADOR = 4;
 	final static int DIGITO = 5;
 	final static int VALOR = 6;
-	final static int IDENTIFICADOR = 7;
+	final static int IDENTIFICADOR = 8;
+        final static int CADENA = 7;
 	
 	
-	private String desc,token;
+	private String desc,token,tipoSt;
 	private int tipo,columna,fila;
-	private String [] significado = {"Palabra reservada","Simbolo especial","Operador","Tipo","Modificador","Digito","Valor","Identificador"};
+	private String [] significado = {"Palabra reservada","Simbolo especial","Operador","Tipo","Modificador","Digito","Valor","Cadena","Identificador"};
 
 
 	public Componente(int tp,String t,int col,int fila){
@@ -51,6 +52,7 @@ public class Componente
 	public int getTipo(){
 		return tipo;
 	}
+       
 }
 /**
  *

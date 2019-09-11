@@ -13,6 +13,8 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -31,6 +33,8 @@ public class LectorBuffer
     {
         String lineas = "";
         buscador = new JFileChooser();
+        buscador.setCurrentDirectory(new File("C:\\Users\\Alberto Loera\\Desktop\\Loker"));
+        buscador.addChoosableFileFilter(new FileNameExtensionFilter("Archivos de texto", "txt"));
         buscador.showOpenDialog(buscador);
         archivo = (buscador.getSelectedFile());
         try

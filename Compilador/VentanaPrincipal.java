@@ -255,11 +255,14 @@ public class VentanaPrincipal extends JFrame
                         if(parser.getSalida().equals("No hay errores sintacticos"))
                         {
                         simbolos = parser.getTablaSimbolor();
+                        AnlSemantico ans = new AnlSemantico(tokens);
+                        ans.tablaDeSimbolos();
                         }
-                        else
+                        else 
                         {
                             simbolos.clear();
                         }
+                        
                         
                     }
                     panel_Tokens.removeAll();

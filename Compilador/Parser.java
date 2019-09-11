@@ -300,7 +300,10 @@ public class Parser {
             variable_declaration();
         }
     }
-
+    private void string_literal()
+    {
+        Acomodar(Componente.CADENA, componente.getToken());
+    }
     private void testing_expression() {
         Componente c = null, caux = null;
         c = componente;
@@ -335,7 +338,11 @@ public class Parser {
             Avanza();
         } else if (c.getToken().equals("boolean")) {
             Avanza();
-        } else {
+        }else if(c.getToken().equals("String"))
+        {
+            Avanza();
+        }
+        else {
             error(Componente.TIPO, "");
         }
     }
@@ -375,6 +382,10 @@ public class Parser {
             integer_literal();
         } else if (c.getTipo() == Componente.VALOR) {
             boolean_literal();
+        }
+        else if(c.getTipo() == componente.CADENA)
+        {
+            string_literal();
         }
     }
 

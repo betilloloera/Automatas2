@@ -14,7 +14,7 @@ public class ComponentesLexicos
     private String expresion ;
     private String descripcion;
     private int tipo ;
-    private String [] significado = {"Palabra reservada","Simbolo especial","Operador","Tipo","Modificador","Digito","Valores Boleano","Identificador"};
+    private String [] significado = {"Palabra reservada","Simbolo especial","Operador","Tipo","Modificador","Digito","Valor","Cadena","Identificador"};
     public ComponentesLexicos(String expresion, String descripcion) 
     {
         this.expresion = expresion;

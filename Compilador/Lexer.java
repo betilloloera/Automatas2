@@ -13,14 +13,15 @@ import java.util.ArrayList;
  */
 public class Lexer {
     public static final ComponentesLexicos COMLEX [] = {new ComponentesLexicos("(public|private)$","Modificador"),
-                                                        new ComponentesLexicos("(void)","Tipo Retorno"),    
                                                         new ComponentesLexicos("(if|while|for|class)","Palabra reservada"),
-                                                        new ComponentesLexicos("(int|boolean)","Tipo"),
+                                                        new ComponentesLexicos("(int|boolean|String)","Tipo"),
                                                         new ComponentesLexicos("(>|<|>=|<=|==|!=|\\+|-|/|\\*)","Operador"),
                                                         new ComponentesLexicos("[{|}|\\\\;|=|(|)]","Simbolo especial"),
                                                         new ComponentesLexicos("^\\d+$","Digito"),
                                                         new ComponentesLexicos("(true|false)","Valores Boleano"),
+                                                        new ComponentesLexicos("(\".*\")","Cadena"),
                                                         new ComponentesLexicos("^[A-Za-z]+$","Identificador")};
+                                                        
     
     Componente componente;
     ArrayList<Componente> listaTokens;
@@ -67,7 +68,31 @@ public class Lexer {
                 }
                 i = j - 1;
 
-            } else if (isOperatorOrCharacterEspecial(caracter))
+            }
+            else if(caracter == '\"')
+            {
+                tokens += caracter;
+                int j = i+1 ;
+                columna++;
+                
+                try {
+                    while (cadena.charAt(j) != '\"') 
+                    {
+                        tokens = tokens + cadena.charAt(j);
+                        j++;
+                        if (j == cadena.length()) {
+                            break;
+                        }
+                    }
+                    tokens += cadena.charAt(j);
+                } catch (StringIndexOutOfBoundsException e) 
+                {
+                   tokens = ""; 
+                }
+                
+                i = j ;
+            }
+            else if (isOperatorOrCharacterEspecial(caracter))
             {
                 tokens += caracter;
                 int j = i + 1;
