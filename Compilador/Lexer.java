@@ -18,7 +18,7 @@ public class Lexer {
                                                         new ComponentesLexicos("(>|<|>=|<=|==|!=|\\+|-|/|\\*)","Operador"),
                                                         new ComponentesLexicos("[{|}|\\\\;|=|(|)]","Simbolo especial"),
                                                         new ComponentesLexicos("^\\d+$","Digito"),
-                                                        new ComponentesLexicos("(true|false)","Valores Boleano"),
+                                                        new ComponentesLexicos("(true|false)","Valor"),
                                                         new ComponentesLexicos("(\".*\")","Cadena"),
                                                         new ComponentesLexicos("^[A-Za-z]+$","Identificador")};
                                                         
@@ -151,7 +151,7 @@ public class Lexer {
             { //en caso de que el token sea uno no valido
                 if (caracter != '\n' || caracter != '\r' || caracter != '\t' || caracter != ' ') {// se descarta la opcion de que sea un salto de liena o un retorno de carro o un tabulador o un espacion en blanco 
                     //muestra la salida de los errores por consola
-                    salida += "\tError en el token \"" + tokens + "\" en la posicion \n";
+                    salida += "\tError en el token \"" + tokens + "\" en la posicion "+lineas+" \n";
                     System.out.println("\tError en el token \"" + tokens + "\" en la posicion \n");
                 }
             }            

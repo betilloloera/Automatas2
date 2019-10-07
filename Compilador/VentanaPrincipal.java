@@ -244,19 +244,30 @@ public class VentanaPrincipal extends JFrame
                     if(errorLex == false)
                     {
                        cadenaConsola = motorLexico.getSalida();
+                       
                     
                     }
-                    else if(errorLex == true)
+                    else if(errorLex)
                     {
                         cadenaConsola = "Lexico Completo\n";
                         ArrayList <Componente> array = motorLexico.getListTokens();
-                        cadenaConsola += parser.motorSintactico(array);
+                        cadenaConsola += parser.motorSintactico(array)+"\n";
                         tokens = motorLexico.getListTokens();
                         if(parser.getSalida().equals("No hay errores sintacticos"))
                         {
-                        simbolos = parser.getTablaSimbolor();
                         AnlSemantico ans = new AnlSemantico(tokens);
-                        ans.tablaDeSimbolos();
+                        
+                        ans.motorSemantico();
+                            if (ans.getSalida().equals("")) 
+                            {
+                                cadenaConsola += "Semantico Correcto";
+                                simbolos = ans.getTablaSimbolos();
+                            }
+                            else
+                            {
+                                cadenaConsola += ans.getSalida();
+                            }
+                       
                         }
                         else 
                         {

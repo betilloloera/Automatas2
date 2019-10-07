@@ -17,6 +17,7 @@ public class main {
     public static void main(String[] args) throws HeadlessException, IOException {
         // TODO code application logic here
         VentanaPrincipal ventana = new VentanaPrincipal();
+        
     }
     
 }

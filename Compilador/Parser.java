@@ -119,7 +119,7 @@ public class Parser {
     }
 
     private void error(int t, String to) {
-        switch (t) {
+       switch (t) {
             case Componente.PALABRA_RESERVADA:
                 switch (to) {
                     case "class":
@@ -150,6 +150,8 @@ public class Parser {
                     case ";":
                         salida += "Error Sintactico, Fila: " + componente.getFila() + " se esperaba un \"" + to + "\"\t" + componente.getToken() + "\n";
                         break;
+                    case "blanck": salida +="";
+                    break;
                     default:
                         salida += "Error Sintactico, Fila: " + componente.getFila() + " se esperaba un Simbolo especial\t" + componente.getToken() + "\n";
                         break;
@@ -386,6 +388,10 @@ public class Parser {
         else if(c.getTipo() == componente.CADENA)
         {
             string_literal();
+        }
+        else
+        {
+            error(componente.TIPO,"");
         }
     }
 
