@@ -61,21 +61,20 @@ public class Parser {
 
         Componente c;
         c = componente;
-        fila = c.getFila();
-        identificador = c.getToken();
+      
         identificador();
 
         Acomodar(Componente.SIMBOLO_ESPECIAL, "=");
-        valor = componente.getToken();
+        
         integer_literal();
         c = componente;
-        valor += c.getToken();
-        if (c.getToken().matches("[\\+|-|/|\\*]")) {
+      
+        if (c.getToken().matches("(\\+|-|/|\\*)")) {
             Avanza();
         } else {
             error(Componente.OPERADOR, "arit");
         }
-        valor += componente.getToken();
+       
         integer_literal();
         
         Acomodar(Componente.SIMBOLO_ESPECIAL, ";");
@@ -192,14 +191,10 @@ public class Parser {
         }
     }
 
-    public ArrayList getTablaSimbolor() {
-        return tablaSimbolos;
-    }
     public String getSalida()
     {
         return salida;
     }
-
     private void if_Statement() {
         Componente c;
         c = componente;
@@ -261,34 +256,6 @@ public class Parser {
         }
 
     }
-
-  /*  public void operacionAritmetica() {
-        switch(operador)
-        {
-            case "+":
-            {
-               try{
-               int x = Integer.parseInt(valor);
-               valor = String.valueOf((x+pila.pop()+pila.pop()));
-               }
-                catch(java.util.EmptyStackException e)
-                {
-                  salida +="Error aritmetico";
-                }
-               catch(NumberFormatException e)
-                {
-                  salida +="Error aritmetico";
-                }
-
-               break;
-            }
-            default: salida += "Error aritmetico";
-            break;
-                
-        }
-        
-    }*/
-
     private void statement() {
         Componente c = null, caux = null;
         c = componente;

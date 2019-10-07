@@ -255,13 +255,13 @@ public class VentanaPrincipal extends JFrame
                         tokens = motorLexico.getListTokens();
                         if(parser.getSalida().equals("No hay errores sintacticos"))
                         {
-                        AnlSemantico ans = new AnlSemantico(tokens);
+                        SemanticAnalizer ans = new SemanticAnalizer(tokens);
                         
-                        ans.motorSemantico();
+                        ans.semanticEngine();
                             if (ans.getSalida().equals("")) 
                             {
                                 cadenaConsola += "Semantico Correcto";
-                                simbolos = ans.getTablaSimbolos();
+                                simbolos = ans.getSymbolTable();
                             }
                             else
                             {
