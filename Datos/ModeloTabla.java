@@ -17,7 +17,7 @@ import jdk.nashorn.internal.parser.Token;
 public class ModeloTabla extends AbstractTableModel{
 
 	private static final long serialVersionUID = 1L;
-	private String[] titulo ={"Tipo","Token","Valor","Renglon"};
+	private String[] titulo ={"Tipo","Token","Valor","tamaño","Renglon"};
 	private ArrayList<Simbolos> simbolos ;
 
     public ModeloTabla(ArrayList<Simbolos> array) 
@@ -51,7 +51,8 @@ public class ModeloTabla extends AbstractTableModel{
             case 0: return simbolos.get(rowIndex).getType();
             case 1: return simbolos.get(rowIndex).getIdentificador();
             case 2: return simbolos.get(rowIndex).getValor();
-            case 3: return simbolos.get(rowIndex).getFila();
+            case 3: return simbolos.get(rowIndex).getTamaño();
+            case 4: return simbolos.get(rowIndex).getFila();
             default: return null;
         }
     }

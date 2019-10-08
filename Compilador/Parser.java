@@ -15,9 +15,9 @@ import java.util.Stack;
 public class Parser {
 
     ArrayList<Componente> componentes;
-    ArrayList<Simbolos> tablaSimbolos;
+    
     Componente componente, auxDer, auxIzq;
-    String tipo, identificador, valor = "0",operador;
+    
     String salida = "";
     public static String salida2 = "";
     private int idx = 0,fila = 0;
@@ -27,8 +27,8 @@ public class Parser {
 
     public Parser() {
         componentes = new ArrayList<Componente>();
-        tablaSimbolos = new ArrayList<Simbolos>();
-        pila = new Stack<Integer>();
+        
+        
     }
 
     private void Acomodar(int tipo, String s) {
@@ -65,8 +65,15 @@ public class Parser {
         identificador();
 
         Acomodar(Componente.SIMBOLO_ESPECIAL, "=");
-        
-        integer_literal();
+        if(componente.getTipo() == Componente.DIGITO)
+        {
+         integer_literal();
+        }
+        else if(componente.getTipo() == Componente.IDENTIFICADOR)
+        {
+            identificador();
+        }
+       
         c = componente;
       
         if (c.getToken().matches("(\\+|-|/|\\*)")) {
@@ -75,7 +82,14 @@ public class Parser {
             error(Componente.OPERADOR, "arit");
         }
        
-        integer_literal();
+       if(componente.getTipo() == Componente.DIGITO)
+        {
+         integer_literal();
+        }
+        else if(componente.getTipo() == Componente.IDENTIFICADOR)
+        {
+            identificador();
+        }   
         
         Acomodar(Componente.SIMBOLO_ESPECIAL, ";");
     }
@@ -91,17 +105,16 @@ public class Parser {
             modificador();
         }
         c = componente;
-        fila = c.getFila();
-        tipo = c.getToken();
+        
         Acomodar(Componente.PALABRA_RESERVADA, "class");
         
         c = componente;
-        identificador = c.getToken();
-        valor ="0";
+        
+        
         identificador();
         c = componente;
         Acomodar(Componente.SIMBOLO_ESPECIAL, "{");
-        tablaSimbolos.add(new Simbolos(tipo, identificador, valor,fila));
+        
 
         //-----------------field_Declaration
         c = componente;
@@ -203,7 +216,7 @@ public class Parser {
         Acomodar(Componente.SIMBOLO_ESPECIAL, ")");
         Acomodar(Componente.SIMBOLO_ESPECIAL, "{");
         aritmetic_expression();
-        tablaSimbolos.add(new Simbolos("0", identificador, valor, fila));
+        
         Acomodar(Componente.SIMBOLO_ESPECIAL, "}");
         
         statement();
@@ -238,7 +251,7 @@ public class Parser {
 
     public String motorSintactico(ArrayList<Componente> listaTokens) {
        
-        tablaSimbolos.clear();
+        
         salida = "";
         idx = 0;
         componentes = listaTokens;
@@ -320,15 +333,15 @@ public class Parser {
 
         Componente c = null, caux = null;
         c = componente;
-        tipo = c.getToken();
+        
         if (c.getTipo() != Componente.TIPO) {
             modificador();
         }
         type();
         if (c.getToken().equals("boolean")) {
-            valor = "true";
+            
         }
-        identificador = componente.getToken();
+        
         fila = componente.getFila();
         identificador();
         
@@ -338,7 +351,7 @@ public class Parser {
             variable_declarator();
         }
 
-        tablaSimbolos.add(new Simbolos(tipo, identificador, valor, c.getFila()));
+        
         
         
     }
@@ -346,7 +359,7 @@ public class Parser {
     private void variable_declarator() {
         Componente c, cauxa;
         c = componente;
-        valor = c.getToken();
+        
         if (c.getTipo() == Componente.DIGITO) {
             integer_literal();
         } else if (c.getTipo() == Componente.VALOR) {

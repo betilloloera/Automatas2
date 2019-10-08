@@ -14,18 +14,18 @@ public class Simbolos
 	private String desc,token;
 	private int tipo,columna,fila;
         
-        String type;
-        String identificador;
-        String valor;
+        String type,valor,identificador;
+        int tamaño;
         
 	
 
-    public Simbolos(String tipo,String identifi,String valor,int fila)
+    public Simbolos(String tipo,String identifi,int tamaño,String valor,int fila)
     {
         type = tipo;
         identificador = identifi;
         this.valor = valor;
         this.fila = fila;
+        this.tamaño = tamaño;
     }
 
     public String getDesc() {
@@ -62,6 +62,14 @@ public class Simbolos
     public void setValor(String valor)
     {
         this.valor = valor;
+    }
+    public int getTamaño()
+    {
+        return tamaño;
+    }
+    public void setTamaño(int tamaño)
+    {
+        this.tamaño = tamaño;
     }
     
     

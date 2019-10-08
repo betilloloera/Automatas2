@@ -46,9 +46,11 @@ public class SemanticAnalizer {
             {
                 tipo = "clase";
                 nexToken();
+                valor ="-";
                 posicion = componente.getFila();
                 identificador = componente.getToken();
                 error = false;
+                tamaño = 1;
                 addSymbol();
             }
             else if (componente.getTipo() == Componente.TIPO)
@@ -99,12 +101,27 @@ public class SemanticAnalizer {
                         if (componente.getToken().equals("=")) {
 
                             nexToken();
-
-                            pila.push(Integer.parseInt(componente.getToken()));
+                            if(componente.getTipo() == Componente.IDENTIFICADOR)
+                            {
+                                pila.push(Integer.parseInt(identChek()));
+                            }
+                            else
+                            {
+                              pila.push(Integer.parseInt(componente.getToken()));
+                            }
                             nexToken();
                             operador = componente.getToken();
                             nexToken();
-                            pila.push(Integer.parseInt(componente.getToken()));
+                            if(componente.getTipo() == Componente.IDENTIFICADOR)
+                            {
+                                pila.push(Integer.parseInt(identChek()));
+                            }
+                            else
+                            {
+                              pila.push(Integer.parseInt(componente.getToken()));
+                            }
+                            
+                            
                             try {
                                 aritmeticOperation();
                                 pila.clear();
@@ -113,7 +130,6 @@ public class SemanticAnalizer {
                             } catch (StackOverflowError e) {
                                 salida += "Error Aritmetico";
                             }
-
                         }
                     }
                     else{
@@ -165,7 +181,7 @@ public class SemanticAnalizer {
                
                 if(valorNuevo != null)
                 {
-                    System.out.println("valor nuevo :"+valorNuevo);
+                    
                     c.setValor(String.valueOf(Integer.parseInt(valorNuevo)));
                 }
                 break;
@@ -177,7 +193,7 @@ public class SemanticAnalizer {
     {
         if (error == false) 
             {
-                simbolos.add(new Simbolos(tipo, identificador, valor, posicion));
+                simbolos.add(new Simbolos(tipo, identificador, tamaño,valor, posicion));
             }
     }
     public ArrayList getSymbolTable()
@@ -225,7 +241,7 @@ public class SemanticAnalizer {
 
         } catch (NumberFormatException e) {
             salida += ("\tError Semantico en la linea " + posicion + " en el token " + componente.getToken()
-                    + " Se esperaba un valor entero");
+                    + " Se esperaba un valor entero\n");
         }
     }
     public void booleanCheck() {
@@ -235,18 +251,41 @@ public class SemanticAnalizer {
         } else {
             salida
                     += "\tError Semantico en la linea, linea: " + posicion
-                    + " en el token:" + componente.getToken() + " Se esperba un dato boolean";
+                    + " en el token:" + componente.getToken() + " Se esperba un dato boolean\n";
         }
     }
     public void stringCheck() {
         if (componente.getToken().charAt(0) == '\"' && componente.getToken().charAt(componente.getToken().length() - 1) == '\"') {
             valor = componente.getToken();
-            tamaño = componente.getToken().length();
+            tamaño = componente.getToken().length()-2;
             error = false;
         } else {
             salida
                     += "\tError Semantico en la linea, linea: " + posicion
-                    + " en el token: " + componente.getToken() + " Se esperaba el token \"";
+                    + " en el token: " + componente.getToken() + " Se esperaba el token \"\n";
         }
+    }
+    public String identChek()
+    {
+         String val = "";
+        
+            if (matchSearch(componente.getToken()))
+            {
+                posicion = componente.getFila();
+                if (aux.getType().equals("int")) 
+                {
+                   val = aux.getValor();
+                    
+                } else 
+                {
+                    salida += "\tError Semantico en la posicion " + posicion + " No se puede hacer operaciones con valores diferente de entero\n";
+                }
+            } 
+            else {
+                salida += ("\tError semantico en la linea " + posicion + " en el token \""
+                        + componente.getToken() + "\" la variable no esta declarada anteriormente\n");
+            }
+        
+        return val;
     }
 }
