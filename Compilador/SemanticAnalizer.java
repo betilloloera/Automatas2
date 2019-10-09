@@ -18,10 +18,10 @@ public class SemanticAnalizer {
     ArrayList<Componente> tokens;
     ArrayList<Simbolos> simbolos;
     Simbolos aux;
-    String tipo, identificador, valor, salida,operador;
+    String tipo, identificador, valor, salida, operador, contexto;
     int posicion, indice, tamaño;
     Componente componente;
-    Stack <Integer>pila ;
+    Stack<Integer> pila;
     boolean error = true;
 
     public SemanticAnalizer(ArrayList<Componente> tokens) {
@@ -31,128 +31,97 @@ public class SemanticAnalizer {
         simbolos = new ArrayList<Simbolos>();
         salida = "";
         simbolos.clear();
-
-    }
-
-    public void getArraySymbol() {
-
     }
 
     public void semanticEngine() {
-
         do {
             pila.clear();
-            if(componente.getTipo() == Componente.PALABRA_RESERVADA && componente.getToken().equals("class"))
-            {
+            if (componente.getTipo() == Componente.PALABRA_RESERVADA && componente.getToken().equals("class")) {
                 tipo = "clase";
                 nexToken();
-                valor ="-";
+                valor = "-";
                 posicion = componente.getFila();
                 identificador = componente.getToken();
                 error = false;
                 tamaño = 1;
                 addSymbol();
-            }
-            else if (componente.getTipo() == Componente.TIPO)
-            {
+            } else if (componente.getTipo() == Componente.TIPO) {
                 valor = "0";
                 tipo = componente.getToken();
                 nexToken();
                 posicion = componente.getFila();
                 identificador = componente.getToken();
-                if (!matchSearch(identificador)) 
-                {
+                if (!matchSearch(identificador)) {
                     error = false;
                     nexToken();
-                    if (componente.getToken().equals("=")) 
-                    {
+                    if (componente.getToken().equals("=")) {
                         nexToken();
-                        if (tipo.equals("int")) 
-                        {
-                         intCheck();
-                        } 
-                        else if (tipo.equals("boolean")) 
-                        {
-                           booleanCheck();
-                        } 
-                        else if (tipo.equals("String")) 
-                        {
-                           stringCheck();
+                        if (tipo.equals("int")) {
+                            intCheck();
+                        } else if (tipo.equals("boolean")) {
+                            booleanCheck();
+                        } else if (tipo.equals("String")) {
+                            stringCheck();
                         }
                     }
-                   
-                    addSymbol();  
+                    addSymbol();
                     valor = "";
-                   
-                }             
-                else
-                {
-                    error  = true;
+                } else {
+                    error = true;
                     salida += ("\tError semantico en la linea " + posicion + " en el token \""
-                           + componente.getToken()+ "\" la variable ya esta declarada anteriormente\n");
+                            + componente.getToken() + "\" la variable ya esta declarada anteriormente\n");
                 }
-            }
-            else if (componente.getTipo() == Componente.IDENTIFICADOR ) 
-            {
-              posicion = componente.getFila();
+            } else if (componente.getTipo() == Componente.IDENTIFICADOR) {
+                posicion = componente.getFila();
                 if (matchSearch(componente.getToken())) {
                     if (aux.getType().equals("int")) {
                         nexToken();
                         if (componente.getToken().equals("=")) {
 
                             nexToken();
-                            if(componente.getTipo() == Componente.IDENTIFICADOR)
-                            {
-                                pila.push(Integer.parseInt(identChek()));
-                            }
-                            else
-                            {
-                              pila.push(Integer.parseInt(componente.getToken()));
+                            if (componente.getTipo() == Componente.IDENTIFICADOR) {
+                                try {
+                                    pila.push(Integer.parseInt(identChek()));
+                                } catch (NumberFormatException e) {
+
+                                }
+                            } else {
+                                pila.push(Integer.parseInt(componente.getToken()));
                             }
                             nexToken();
                             operador = componente.getToken();
                             nexToken();
-                            if(componente.getTipo() == Componente.IDENTIFICADOR)
-                            {
-                                pila.push(Integer.parseInt(identChek()));
+                            if (componente.getTipo() == Componente.IDENTIFICADOR) {
+                                try {
+                                    pila.push(Integer.parseInt(identChek()));
+                                } catch (NumberFormatException e) {
+
+                                }
+                            } else {
+                                pila.push(Integer.parseInt(componente.getToken()));
                             }
-                            else
-                            {
-                              pila.push(Integer.parseInt(componente.getToken()));
-                            }
-                            
-                            
+
                             try {
                                 aritmeticOperation();
                                 pila.clear();
-                            } catch (ArithmeticException e) {
-                                salida += "Error Aritmetico";
-                            } catch (StackOverflowError e) {
-                                salida += "Error Aritmetico";
+                            } catch (Exception e) {
+                                salida += "\tError Aritmetico";
+                                pila.clear();
                             }
                         }
+                    } else {
+                        salida += "\tError semantico, linea " + posicion + " Solo se pueden hacer operaciones y/0 condiciones con enteros\n";
                     }
-                    else{
-                        salida+="\tError semantico, linea "+posicion+" Solo se pueden hacer operaciones y/0 condiciones con enteros\n";
-                    }
-                }
-                else
-                {
+                } else {
                     error = true;
                     salida += ("\tError semantico en la linea " + posicion + " en el token \""
-                           + componente.getToken()+ "\" la variable no esta declarada anteriormente\n");
+                            + componente.getToken() + "\" la variable no esta declarada anteriormente\n");
                 }
             }
             error = true;
             valor = "";
-
             nexToken();
-
         } while (componente != null);
-        System.out.println(salida);
-        for (Simbolos s : simbolos) {
-            System.out.println("Token " + s.getIdentificador() + " tipo " + s.getType() + " valor " + s.getValor());
-        }
     }
 
     public void nexToken() {
@@ -167,21 +136,19 @@ public class SemanticAnalizer {
     public String getSalida() {
         return salida;
     }
-    public boolean matchSearch(String identificador)
-    {
-        return matchSearch(identificador,null);
+
+    public boolean matchSearch(String identificador) {
+        return matchSearch(identificador, null);
     }
-    public boolean matchSearch(String identificador,String valorNuevo) {
+
+    public boolean matchSearch(String identificador, String valorNuevo) {
         boolean bandera = false;
-        for (Simbolos c : simbolos) 
-        {
+        for (Simbolos c : simbolos) {
             if (c.getIdentificador().equals(identificador)) {
                 bandera = true;
                 aux = c;
-               
-                if(valorNuevo != null)
-                {
-                    
+
+                if (valorNuevo != null) {
                     c.setValor(String.valueOf(Integer.parseInt(valorNuevo)));
                 }
                 break;
@@ -189,51 +156,44 @@ public class SemanticAnalizer {
         }
         return bandera;
     }
-    public void addSymbol()
-    {
-        if (error == false) 
-            {
-                simbolos.add(new Simbolos(tipo, identificador, tamaño,valor, posicion));
-            }
+
+    public void addSymbol() {
+        if (error == false) {
+            simbolos.add(new Simbolos(tipo, identificador, tamaño, valor, posicion));
+        }
     }
-    public ArrayList getSymbolTable()
-    {
+
+    public ArrayList getSymbolTable() {
         return simbolos;
     }
-    public void aritmeticOperation() throws ArithmeticException
-    {
-        switch(operador)
-        {
-            case "+":
-            { 
-               int res = pila.get(0)+ pila.get(1);
-               matchSearch(identificador, String.valueOf(res));
-               break;
-            }
-            case "*":
-            {
-                int res = pila.get(0)*pila.get(1);
+
+    public void aritmeticOperation() throws ArithmeticException {
+        switch (operador) {
+            case "+": {
+                int res = pila.get(0) + pila.get(1);
                 matchSearch(identificador, String.valueOf(res));
-               break;
+                break;
             }
-             case "-":
-            {
+            case "*": {
+                int res = pila.get(0) * pila.get(1);
+                matchSearch(identificador, String.valueOf(res));
+                break;
+            }
+            case "-": {
                 int res = pila.get(0) - pila.get(1);
                 matchSearch(identificador, String.valueOf(res));
                 break;
-
             }
-             case "/":
-            {
-                int res = pila.get(0)/pila.get(1);
+            case "/": {
+                int res = pila.get(0) / pila.get(1);
                 matchSearch(identificador, String.valueOf(res));
                 break;
             }
         }
     }
-    public void intCheck()
-    {
-          try {
+
+    public void intCheck() {
+        try {
             int val = Integer.parseInt(componente.getToken());
             valor = String.valueOf(val);
             tamaño = 1;
@@ -244,6 +204,7 @@ public class SemanticAnalizer {
                     + " Se esperaba un valor entero\n");
         }
     }
+
     public void booleanCheck() {
         if (componente.getToken().matches("(true|false)")) {
             valor = componente.getToken();
@@ -254,10 +215,11 @@ public class SemanticAnalizer {
                     + " en el token:" + componente.getToken() + " Se esperba un dato boolean\n";
         }
     }
+
     public void stringCheck() {
         if (componente.getToken().charAt(0) == '\"' && componente.getToken().charAt(componente.getToken().length() - 1) == '\"') {
             valor = componente.getToken();
-            tamaño = componente.getToken().length()-2;
+            tamaño = componente.getToken().length() - 2;
             error = false;
         } else {
             salida
@@ -265,27 +227,20 @@ public class SemanticAnalizer {
                     + " en el token: " + componente.getToken() + " Se esperaba el token \"\n";
         }
     }
-    public String identChek()
-    {
-         String val = "";
-        
-            if (matchSearch(componente.getToken()))
-            {
-                posicion = componente.getFila();
-                if (aux.getType().equals("int")) 
-                {
-                   val = aux.getValor();
-                    
-                } else 
-                {
-                    salida += "\tError Semantico en la posicion " + posicion + " No se puede hacer operaciones con valores diferente de entero\n";
-                }
-            } 
-            else {
-                salida += ("\tError semantico en la linea " + posicion + " en el token \""
-                        + componente.getToken() + "\" la variable no esta declarada anteriormente\n");
+
+    public String identChek() throws NumberFormatException {
+        String val = "";
+        if (matchSearch(componente.getToken())) {
+            posicion = componente.getFila();
+            if (aux.getType().equals("int")) {
+                val = aux.getValor();
+            } else {
+                salida += "\tError Semantico en la posicion " + posicion + " No se puede hacer operaciones con valores diferente de entero\n";
             }
-        
+        } else {
+            salida += ("\tError semantico en la linea " + posicion + " en el token \""
+                    + componente.getToken() + "\" la variable no esta declarada anteriormente\n");
+        }
         return val;
     }
 }

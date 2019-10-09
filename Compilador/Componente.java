@@ -15,14 +15,10 @@ public class Componente
 	final static int DIGITO = 5;
 	final static int VALOR = 6;
 	final static int IDENTIFICADOR = 8;
-        final static int CADENA = 7;
-	
-	
+        final static int CADENA = 7;	
 	private String desc,token,tipoSt;
 	private int tipo,columna,fila;
 	private String [] significado = {"Palabra reservada","Simbolo especial","Operador","Tipo","Modificador","Digito","Valor","Cadena","Identificador"};
-
-
 	public Componente(int tp,String t,int col,int fila){
 		tipo = tp;
 		token = t;
@@ -33,7 +29,6 @@ public class Componente
 		else
 			desc ="";
 	}
-
 	public String getDesc() {
 		return desc;
 	}
@@ -51,8 +46,7 @@ public class Componente
 	}
 	public int getTipo(){
 		return tipo;
-	}
-       
+	} 
 }
 /**
  *

@@ -185,16 +185,13 @@ public class VentanaPrincipal extends JFrame
     
     public void disposeArrays()
     {
-        
         simbolos =  null;
-        tokens = null;
-        
+        tokens = null;   
     }
     public void disposeEngines()
     {
         motorLexico = null;
         parser = null;
-        
     }
     public void botones()
     {
@@ -214,12 +211,9 @@ public class VentanaPrincipal extends JFrame
         TablaTokens.addActionListener(oyente);
         abrir.addActionListener(oyente);
         botonAñadirPestaña.addActionListener(oyente);
-        
     }
-    
     public Icon redimencionarImagen(String ruta)
-    {
-        
+    {   
         ImageIcon imagenIconoCorrer = new ImageIcon(getClass().getResource("/Imagenes/playOji.png"));
         Image  imagenEscaladaCorrer =imagenIconoCorrer.getImage().getScaledInstance(btn_Correr.getWidth(), btn_Correr.getHeight(),Image.SCALE_SMOOTH);
         Icon icono = new ImageIcon(imagenEscaladaCorrer);
@@ -227,7 +221,6 @@ public class VentanaPrincipal extends JFrame
     }
    class Oyente implements ActionListener
         {
-
             @Override
             public void actionPerformed(ActionEvent e) 
             {
@@ -236,16 +229,13 @@ public class VentanaPrincipal extends JFrame
                 {   
                     parser = new Parser();
                     motorLexico = new Lexer();
-                   
                     int x=workSpaceTexto.getSelectedIndex();
                     EspacioTexto espacioAux = (EspacioTexto)workSpaceTexto.getSelectedComponent();
                     String texto = espacioAux.getTextPane().getText();
                     errorLex = motorLexico.motorLexicoM(texto);
                     if(errorLex == false)
                     {
-                       cadenaConsola = motorLexico.getSalida();
-                       
-                    
+                       cadenaConsola = motorLexico.getSalida(); 
                     }
                     else if(errorLex)
                     {
@@ -266,15 +256,12 @@ public class VentanaPrincipal extends JFrame
                             else
                             {
                                 cadenaConsola += ans.getSalida();
-                            }
-                       
+                            }     
                         }
                         else 
                         {
                             simbolos.clear();
-                        }
-                        
-                        
+                        }   
                     }
                     panel_Tokens.removeAll();
                     panelConsola.setTextoConola(cadenaConsola);
@@ -283,9 +270,7 @@ public class VentanaPrincipal extends JFrame
                     panel_Tokens.add(sp);
                     panel_Tokens.updateUI();
                     disposeEngines();
-                    cadenaConsola = null;
-                    
-                  
+                    cadenaConsola = null;         
                 }
                 else if(e.getSource() == btn_clsConsola)
                 {
@@ -293,19 +278,16 @@ public class VentanaPrincipal extends JFrame
                 }
                 else if(e.getSource() == botonAñadirPestaña)
                 {                
-                    
                     workSpaceTexto.addTab("Nueva Pestaña code",new EspacioTexto());    
                 }
                 if(e.getSource() == abrir)
                 {
-                    
-                     EspacioTexto espacioAux = (EspacioTexto)workSpaceTexto.getSelectedComponent();
+                    EspacioTexto espacioAux = (EspacioTexto)workSpaceTexto.getSelectedComponent();
                     try {
                         lector = new LectorBuffer(espacioAux.getTextPane());
                     } catch (IOException ex) {
                         Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                   
                 }
                 if(e.getSource() == TablaSimbolos)
                 {
@@ -314,13 +296,10 @@ public class VentanaPrincipal extends JFrame
                 }
                 if(e.getSource() == TablaTokens)
                 {
-                    
                     frm_tablaTokens.crearTabla(tokens);
                     frm_tablaTokens.repaint();
-                    frm_tablaTokens.setVisible(true);
-                    
+                    frm_tablaTokens.setVisible(true);   
                 }
-               
             }
         }
     }
