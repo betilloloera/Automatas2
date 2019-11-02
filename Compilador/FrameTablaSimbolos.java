@@ -7,6 +7,7 @@ package Compilador;
 
 import Datos.ModeloTabla;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
@@ -26,7 +27,9 @@ JPanel panelSim;
         super(v,"Tabla de tokens",true);
          panelSim = new JPanel();
          panelSim.setLayout(new BorderLayout());
-        this.add(panelSim);
+         
+         this.add(panelSim);
+        
         Dimension pantalla = v.getSize();
         setLocationRelativeTo(v);
         setSize(400,500);

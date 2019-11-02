@@ -7,15 +7,15 @@ package Compilador;
 
 public class Componente 
 {
-        final static int PALABRA_RESERVADA=0;
-	final static int SIMBOLO_ESPECIAL = 1;
-	final static int OPERADOR = 2;
-	final static int TIPO  = 3;
-	final static int MODIFICADOR = 4;
-	final static int DIGITO = 5;
-	final static int VALOR = 6;
-	final static int IDENTIFICADOR = 8;
-        final static int CADENA = 7;	
+        public final static int PALABRA_RESERVADA=0;
+	public final static int SIMBOLO_ESPECIAL = 1;
+	public final static int OPERADOR = 2;
+	public final static int TIPO  = 3;
+	public final static int MODIFICADOR = 4;
+	public final static int DIGITO = 5;
+	public final static int VALOR = 6;
+	public final static int IDENTIFICADOR = 8;
+        public final static int CADENA = 7;	
 	private String desc,token,tipoSt;
 	private int tipo,columna,fila;
 	private String [] significado = {"Palabra reservada","Simbolo especial","Operador","Tipo","Modificador","Digito","Valor","Cadena","Identificador"};

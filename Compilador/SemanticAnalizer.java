@@ -5,6 +5,7 @@
  */
 package Compilador;
 
+import Cuadruplos.Arbol;
 import java.util.ArrayList;
 import java.util.Stack;
 import javafx.beans.binding.Bindings;
@@ -14,28 +15,29 @@ import javafx.beans.binding.Bindings;
  * @author Alberto Loera
  */
 public class SemanticAnalizer {
-
-    ArrayList<Componente> tokens;
+    Arbol arbolito = new Arbol();
+    ArrayList<Componente> tokens, expresion;
     ArrayList<Simbolos> simbolos;
     Simbolos aux;
     String tipo, identificador, valor, salida, operador, contexto;
     int posicion, indice, tamaño;
     Componente componente;
-    Stack<Integer> pila;
+
     boolean error = true;
 
     public SemanticAnalizer(ArrayList<Componente> tokens) {
         this.tokens = tokens;
-        pila = new Stack<Integer>();
+        
         componente = tokens.get(indice);
         simbolos = new ArrayList<Simbolos>();
+        expresion = new ArrayList<Componente>();
         salida = "";
         simbolos.clear();
     }
 
     public void semanticEngine() {
         do {
-            pila.clear();
+
             if (componente.getTipo() == Componente.PALABRA_RESERVADA && componente.getToken().equals("class")) {
                 tipo = "clase";
                 nexToken();
@@ -69,45 +71,27 @@ public class SemanticAnalizer {
                 } else {
                     error = true;
                     salida += ("\tError semantico en la linea " + posicion + " en el token \""
-                            + componente.getToken() + "\" la variable ya esta declarada anteriormente\n");
+                            + componente.getToken() + "\" la variable ya esta declarada anteriormente en la linea " + aux.getFila() + "\n");
                 }
             } else if (componente.getTipo() == Componente.IDENTIFICADOR) {
                 posicion = componente.getFila();
                 if (matchSearch(componente.getToken())) {
                     if (aux.getType().equals("int")) {
+                        identificador = componente.getToken();
                         nexToken();
-                        if (componente.getToken().equals("=")) {
-
+                       if (componente.getToken().equals("=")) {
                             nexToken();
-                            if (componente.getTipo() == Componente.IDENTIFICADOR) {
-                                try {
-                                    pila.push(Integer.parseInt(identChek()));
-                                } catch (NumberFormatException e) {
-
-                                }
-                            } else {
-                                pila.push(Integer.parseInt(componente.getToken()));
+                            while(!componente.getToken().equals(";"))
+                            {                                
+                                expresion.add(componente);
+                                arbolito.añadirNodo(componente);
+                                nexToken();
                             }
-                            nexToken();
-                            operador = componente.getToken();
-                            nexToken();
-                            if (componente.getTipo() == Componente.IDENTIFICADOR) {
-                                try {
-                                    pila.push(Integer.parseInt(identChek()));
-                                } catch (NumberFormatException e) {
-
-                                }
-                            } else {
-                                pila.push(Integer.parseInt(componente.getToken()));
-                            }
-
-                            try {
-                                aritmeticOperation();
-                                pila.clear();
-                            } catch (Exception e) {
-                                salida += "\tError Aritmetico";
-                                pila.clear();
-                            }
+                            arbolito.recorrePosOrden(arbolito.raiz);
+                            System.out.println("Recorrido en POST-ORDEN :"+arbolito.getPost());
+                            arbolito.generaCuadruplo(arbolito.raiz);
+                            System.out.println(arbolito.getCuadruplo());
+                            matchSearch(identificador,arbolito.getResultado());
                         }
                     } else {
                         salida += "\tError semantico, linea " + posicion + " Solo se pueden hacer operaciones y/0 condiciones con enteros\n";
@@ -139,17 +123,17 @@ public class SemanticAnalizer {
 
     public boolean matchSearch(String identificador) {
         return matchSearch(identificador, null);
-    }
+    } 
 
     public boolean matchSearch(String identificador, String valorNuevo) {
         boolean bandera = false;
         for (Simbolos c : simbolos) {
             if (c.getIdentificador().equals(identificador)) {
                 bandera = true;
+                
                 aux = c;
-
                 if (valorNuevo != null) {
-                    c.setValor(String.valueOf(Integer.parseInt(valorNuevo)));
+                    c.setValor(valorNuevo);
                 }
                 break;
             }
@@ -167,31 +151,30 @@ public class SemanticAnalizer {
         return simbolos;
     }
 
-    public void aritmeticOperation() throws ArithmeticException {
-        switch (operador) {
-            case "+": {
-                int res = pila.get(0) + pila.get(1);
-                matchSearch(identificador, String.valueOf(res));
-                break;
-            }
-            case "*": {
-                int res = pila.get(0) * pila.get(1);
-                matchSearch(identificador, String.valueOf(res));
-                break;
-            }
-            case "-": {
-                int res = pila.get(0) - pila.get(1);
-                matchSearch(identificador, String.valueOf(res));
-                break;
-            }
-            case "/": {
-                int res = pila.get(0) / pila.get(1);
-                matchSearch(identificador, String.valueOf(res));
-                break;
-            }
-        }
-    }
-
+//    public void aritmeticOperation() throws ArithmeticException {
+//        switch (operador) {
+//            case "+": {
+//                int res = pila.get(0) + pila.get(1);
+//                matchSearch(identificador, String.valueOf(res));
+//                break;
+//            }
+//            case "*": {
+//                int res = pila.get(0) * pila.get(1);
+//                matchSearch(identificador, String.valueOf(res));
+//                break;
+//            }
+//            case "-": {
+//                int res = pila.get(0) - pila.get(1);
+//                matchSearch(identificador, String.valueOf(res));
+//                break;
+//            }
+//            case "/": {
+//                int res = pila.get(0) / pila.get(1);
+//                matchSearch(identificador, String.valueOf(res));
+//                break;
+//            }
+//        }
+//    }
     public void intCheck() {
         try {
             int val = Integer.parseInt(componente.getToken());
@@ -200,7 +183,7 @@ public class SemanticAnalizer {
             error = false;
 
         } catch (NumberFormatException e) {
-            salida += ("\tError Semantico en la linea " + posicion + " en el token " + componente.getToken()
+            salida += ("\tError Semantico identificador " + identificador + " en la linea " + posicion + " en el token " + componente.getToken()
                     + " Se esperaba un valor entero\n");
         }
     }
@@ -242,5 +225,9 @@ public class SemanticAnalizer {
                     + componente.getToken() + "\" la variable no esta declarada anteriormente\n");
         }
         return val;
+    }
+    public ArrayList<Componente> getExpresion()
+    {
+        return expresion;
     }
 }

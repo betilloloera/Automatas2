@@ -37,11 +37,12 @@ public class EspacioTexto extends JScrollPane
         
         setLayout(new ScrollPaneLayout());
         textoIde = new JTextPane();
-        textoIde.setBackground(new Color(73, 61, 61));
-        textoIde.setCaretColor(Color.white);
-        textoIde.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-        
+        textoIde.setBackground(new Color(0, 0 ,0));
+        textoIde.setFont(new Font("Consolas", Font.PLAIN, 16));
         textoIde.setForeground(Color.white);
+        textoIde.setCaretColor(Color.white);
+        
+        
         
         setViewportView(textoIde);
     }

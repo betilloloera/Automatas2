@@ -35,18 +35,16 @@ public class Lexer {
     }
 
     public boolean motorLexicoM(String cadena) 
-    {
-        
+    {      
         salida = "";
         error=true;
         listaTokens.clear();
         String tokens = "";
         char caracter = '.';
-        int columna = 0, lineas = 1;
-        
-        for (int i = 0; i < cadena.length(); i++) {
+        int columna = 0, lineas = 1;        
+        for (int i = 0; i < cadena.length(); i++) 
+        {
             caracter = cadena.charAt(i);
-
             if (Character.isLetterOrDigit(caracter)) 
             {
                 tokens = tokens + caracter;

@@ -74,12 +74,16 @@ public class Parser {
             identificador();
         }
        
+       
         c = componente;
-      
+       while(!c.getToken().equals(";"))
+       {
         if (c.getToken().matches("(\\+|-|/|\\*)")) {
             Avanza();
         } else {
             error(Componente.OPERADOR, "arit");
+            System.out.println("Se esperaba un operador o un operando");
+            break;
         }
        
        if(componente.getTipo() == Componente.DIGITO)
@@ -88,8 +92,10 @@ public class Parser {
         }
         else if(componente.getTipo() == Componente.IDENTIFICADOR)
         {
-            identificador();
-        }   
+         identificador();
+        }
+          c = componente;
+       }
         
         Acomodar(Componente.SIMBOLO_ESPECIAL, ";");
     }
@@ -385,5 +391,4 @@ public class Parser {
         statement();
         Acomodar(Componente.SIMBOLO_ESPECIAL, "}");
     }
-
 }

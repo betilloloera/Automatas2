@@ -5,7 +5,8 @@
  */
 package Compilador;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
@@ -22,7 +23,9 @@ public class EspacioConsola extends JScrollPane
         
      textoConsola = new JTextPane();
      setViewportView(textoConsola);
- 
+     
+     
+     textoConsola.setFont(new Font("Consolas", Font.PLAIN, 16));
      updateUI();
     }
     public JTextPane getTextPaneConsola()
