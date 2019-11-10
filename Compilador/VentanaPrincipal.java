@@ -225,22 +225,11 @@ public class VentanaPrincipal extends JFrame {
                     tokens = motorLexico.getListTokens();
                     if (parser.getSalida().equals("No hay errores sintacticos")) {
                         SemanticAnalizer ans = new SemanticAnalizer(tokens);
-
                         ans.semanticEngine();
                         if (ans.getSalida().equals("")) {
                             cadenaConsola += "Semantico Correcto\n";
                             simbolos = ans.getSymbolTable();
-                            Arbol arbolito = new Arbol();
-//                            for(Componente c : ans.getExpresion())
-//                            {
-//                                arbolito.añadirNodo(c);
-//                            }
-//                            arbolito.recorrePosOrden(arbolito.raiz);
-//                            arbolito.generaCuadruplo(arbolito.raiz);
-//                            cadenaConsola += arbolito.getPost()+"\n";
-//                            cadenaConsola += arbolito.getCuadruplo();
-                            
-                            
+                            cadenaConsola+=ans.getCua();
                         } else {
                             cadenaConsola += ans.getSalida();
                         }

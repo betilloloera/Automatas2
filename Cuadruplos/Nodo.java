@@ -16,10 +16,10 @@ import jdk.nashorn.internal.parser.Token;
  */
 public class Nodo<Componente> {
     
-    Componente dato;
-    Nodo<Componente> padre, der, izq;
+        Componente dato;
+        Nodo<Componente> padre, der, izq;
 
-    public Nodo(Componente val) {
-        dato = val;
-    }
+        public Nodo(Componente val) {
+            dato = val;
+        }
 }

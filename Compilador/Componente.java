@@ -47,6 +47,10 @@ public class Componente
 	public int getTipo(){
 		return tipo;
 	} 
+        public void setToken(String tokenN)
+        {
+            token = tokenN;
+        }
 }
 /**
  *

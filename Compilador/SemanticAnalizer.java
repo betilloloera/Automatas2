@@ -15,11 +15,12 @@ import javafx.beans.binding.Bindings;
  * @author Alberto Loera
  */
 public class SemanticAnalizer {
+
     Arbol arbolito = new Arbol();
     ArrayList<Componente> tokens, expresion;
     ArrayList<Simbolos> simbolos;
     Simbolos aux;
-    String tipo, identificador, valor, salida, operador, contexto;
+    String tipo, identificador, valor, salida, operador, cuadruplo, postOrden;
     int posicion, indice, tamaño;
     Componente componente;
 
@@ -27,7 +28,7 @@ public class SemanticAnalizer {
 
     public SemanticAnalizer(ArrayList<Componente> tokens) {
         this.tokens = tokens;
-        
+
         componente = tokens.get(indice);
         simbolos = new ArrayList<Simbolos>();
         expresion = new ArrayList<Componente>();
@@ -79,19 +80,26 @@ public class SemanticAnalizer {
                     if (aux.getType().equals("int")) {
                         identificador = componente.getToken();
                         nexToken();
-                       if (componente.getToken().equals("=")) {
+                        if (componente.getToken().equals("=")) {
                             nexToken();
-                            while(!componente.getToken().equals(";"))
-                            {                                
-                                expresion.add(componente);
-                                arbolito.añadirNodo(componente);
+                            while (!componente.getToken().equals(";")) {
+                                if(componente.getTipo() == Componente.IDENTIFICADOR)
+                                {                                  
+                                     arbolito.añadirNodo(new Componente(componente.getTipo(),aux.getValor(),componente.getColumna(), componente.getFila()));
+                                }
+                                else
+                                {
+                                     arbolito.añadirNodo(componente);
+                                }
+                                
+                               
                                 nexToken();
                             }
                             arbolito.recorrePosOrden(arbolito.raiz);
-                            System.out.println("Recorrido en POST-ORDEN :"+arbolito.getPost());
+                            System.out.println("Recorrido en POST-ORDEN :" + arbolito.getPost());
                             arbolito.generaCuadruplo(arbolito.raiz);
-                            System.out.println(arbolito.getCuadruplo());
-                            matchSearch(identificador,arbolito.getResultado());
+                            cuadruplo = (arbolito.getCuadruplo());
+                            matchSearch(identificador, arbolito.getResultado());
                         }
                     } else {
                         salida += "\tError semantico, linea " + posicion + " Solo se pueden hacer operaciones y/0 condiciones con enteros\n";
@@ -123,14 +131,13 @@ public class SemanticAnalizer {
 
     public boolean matchSearch(String identificador) {
         return matchSearch(identificador, null);
-    } 
+    }
 
     public boolean matchSearch(String identificador, String valorNuevo) {
         boolean bandera = false;
         for (Simbolos c : simbolos) {
             if (c.getIdentificador().equals(identificador)) {
                 bandera = true;
-                
                 aux = c;
                 if (valorNuevo != null) {
                     c.setValor(valorNuevo);
@@ -151,30 +158,6 @@ public class SemanticAnalizer {
         return simbolos;
     }
 
-//    public void aritmeticOperation() throws ArithmeticException {
-//        switch (operador) {
-//            case "+": {
-//                int res = pila.get(0) + pila.get(1);
-//                matchSearch(identificador, String.valueOf(res));
-//                break;
-//            }
-//            case "*": {
-//                int res = pila.get(0) * pila.get(1);
-//                matchSearch(identificador, String.valueOf(res));
-//                break;
-//            }
-//            case "-": {
-//                int res = pila.get(0) - pila.get(1);
-//                matchSearch(identificador, String.valueOf(res));
-//                break;
-//            }
-//            case "/": {
-//                int res = pila.get(0) / pila.get(1);
-//                matchSearch(identificador, String.valueOf(res));
-//                break;
-//            }
-//        }
-//    }
     public void intCheck() {
         try {
             int val = Integer.parseInt(componente.getToken());
@@ -226,8 +209,12 @@ public class SemanticAnalizer {
         }
         return val;
     }
-    public ArrayList<Componente> getExpresion()
-    {
+
+    public ArrayList<Componente> getExpresion() {
         return expresion;
+    }
+    public String getCua()
+    {
+        return cuadruplo;
     }
 }
