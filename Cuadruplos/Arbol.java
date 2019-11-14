@@ -13,7 +13,9 @@ import java.awt.Component;
  * @author Alberto Loera
  */
 public class Arbol 
+         
 {        int resultado = 0;
+String t;
         public Nodo<Componente> raiz,actual;
         String post = "",cuadruplo ="";
 	private boolean bandera_nose_que_hace = false;
@@ -102,16 +104,16 @@ public class Arbol
 	    	 v1 = generaCuadruplo(node.izq);
 	               v2 = generaCuadruplo(node.der);
 	               if( node.dato.getTipo() == Componente.OPERADOR)
-		{
+                       {
 	        	 //visit(node.dato.getToken());
 	        	 //System.out.println("T"+cosa+":= "+v1+node.dato.getToken()+v2);
 	        	 
                          cuadruplo += String.format("%15s %s %5s %5s %5s %n%n","T"+cosa,":=",v1,node.dato.getToken(),v2);
-	        	 cosa++;
+	        	 t = "T"+cosa;
+                         cosa++;
 	        	 return "T"+(cosa-1);
 	         	}
-	         
-                          return node.dato.getToken();   
+                         return node.dato.getToken();   
 	     }
 	     return "";
 	 }
@@ -164,7 +166,7 @@ public class Arbol
         }
         public String getCuadruplo()
         {
-            cuadruplo += String.format("%15s %s %s %n","T"+cosa,":=",resuelve(raiz));
+            cuadruplo += String.format("%15s %s %s %n","X"+cosa,":=",t);
             return cuadruplo;
         }
         public String getResultado()
