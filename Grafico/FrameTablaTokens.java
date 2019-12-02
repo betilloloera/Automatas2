@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compilador;
+package Grafico;
 
-import Datos.ModeloTabla2;
+import Compilador.Componente;
+import Grafico.VentanaPrincipal;
+import ModelosTabla.ModeloTabla2;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;

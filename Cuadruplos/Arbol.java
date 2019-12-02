@@ -6,7 +6,7 @@
 package Cuadruplos;
 
 import Compilador.Componente;
-import java.awt.Component;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +18,7 @@ public class Arbol
 String t;
         public Nodo<Componente> raiz,actual;
         String post = "",cuadruplo ="";
+        ArrayList <Cuadruplo> cuad = new ArrayList<Cuadruplo>();
 	private boolean bandera_nose_que_hace = false;
 	int cosa = 1;
         public Arbol() {
@@ -108,7 +109,11 @@ String t;
 	        	 //visit(node.dato.getToken());
 	        	 //System.out.println("T"+cosa+":= "+v1+node.dato.getToken()+v2);
 	        	 
-                         cuadruplo += String.format("%15s %s %5s %5s %5s %n%n","T"+cosa,":=",v1,node.dato.getToken(),v2);
+                         cuad.add(new Cuadruplo("T"+cosa, node.dato.getToken(), v1, v2));
+                         
+                         
+                         cuadruplo += String.format("%15s %s %5s %5s %5s %n%n","T"+cosa,"=",v1,node.dato.getToken(),v2);
+                         
 	        	 t = "T"+cosa;
                          cosa++;
 	        	 return "T"+(cosa-1);
@@ -173,31 +178,40 @@ String t;
         {
             return String.valueOf(resultado);
         }
+        public ArrayList getArreCuad()
+        {
+            return cuad;
+        }
        public static void main(String[] args)
        {
            
-           System.out.println(3 + 6 / 8 * 4 + 9);
            
-//           Arbol arbolito = new Arbol();
-//           int x = 0;
-//           for(int i = 0 ; i< arregloExpr.length;i++)
-//           {
-//               
-//               if((i+1)%2 == 0)
-//               {
-//                 x = Componente.OPERADOR;
-//               }
-//               else
-//               {
-//                 x = Componente.DIGITO;
-//               }
-//               
-//               Componente comp = new Componente(x,arregloExpr[i], 0, 0);
-//               arbolito.añadirNodo(comp);
-//           }
-//           
-//           arbolito.recorrePosOrden(arbolito.raiz);
-//           System.out.println(" ");
-          
+           String exp = "3 + 6 / 8 * 4 + 9";
+           String [] arregloExpr = exp.split(" ");
+           
+           Arbol arbolito = new Arbol();
+           int x = 0;
+           for(int i = 0 ; i< arregloExpr.length;i++)
+           {
+               
+               if((i+1)%2 == 0)
+               {
+                 x = Componente.OPERADOR;
+               }
+               else
+               {
+                 x = Componente.DIGITO;
+               }
+            
+               Componente comp = new Componente(x,arregloExpr[i], 0, 0);
+               arbolito.añadirNodo(comp);
+           }
+           arbolito.recorrePosOrden(arbolito.raiz);
+           System.out.println(arbolito.generaCuadruplo(arbolito.raiz));
+           ArrayList<Cuadruplo> cua = arbolito.getArreCuad();
+           for(Cuadruplo s : cua)
+           {
+               System.out.println(s.getOperador());
+           }
        }
 }

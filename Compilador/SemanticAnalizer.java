@@ -217,4 +217,9 @@ public class SemanticAnalizer {
     {
         return cuadruplo;
     }
+    public ArrayList getListCua()
+    {
+        return arbolito.getArreCuad();
+    }
+            
 }

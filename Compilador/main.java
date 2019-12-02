@@ -1,6 +1,7 @@
 
 package Compilador;
 
+import Grafico.VentanaPrincipal;
 import java.awt.HeadlessException;
 import java.io.IOException;
 

@@ -3,17 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compilador;
+package Buffer;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -25,7 +28,7 @@ public class LectorBuffer
     String cadena = "";
     
     FileReader lectura;
-    File archivo;
+    File archivoEntrada,archivoSalida;
     JFileChooser buscador ;
      
 
@@ -36,13 +39,13 @@ public class LectorBuffer
         buscador.setCurrentDirectory(new File("C:\\Users\\Alberto Loera\\Desktop\\Loker"));
         buscador.addChoosableFileFilter(new FileNameExtensionFilter("Archivos de texto", "txt"));
         buscador.showOpenDialog(buscador);
-        archivo = (buscador.getSelectedFile());
+        archivoEntrada = (buscador.getSelectedFile());
         try
         {
-        lectura = new FileReader(archivo);
+        lectura = new FileReader(archivoEntrada);
         BufferedReader bufer = new BufferedReader(lectura);
        
-        if(archivo.canRead())
+        if(archivoEntrada.canRead())
         {
             areaTexto.setText("");
             while((lineas = bufer.readLine()) != null)
@@ -63,7 +66,9 @@ public class LectorBuffer
         {
             JOptionPane.showMessageDialog(null,"No se eligio ningun arhcivo");
         }
+        
     }
+     
     
     
 }    

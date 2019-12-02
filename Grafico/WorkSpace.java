@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compilador;
+package Grafico;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;

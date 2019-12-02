@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compilador;
+package Grafico;
 
-import Datos.ModeloTabla;
+import Compilador.Simbolos;
+import Grafico.VentanaPrincipal;
+import ModelosTabla.ModeloTabla;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

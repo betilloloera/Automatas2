@@ -3,13 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compilador;
+package Grafico;
 
-import Cuadruplos.Arbol;
-import Datos.ModeloTabla2;
+import Buffer.LectorBuffer;
+import CodigoObjeto.CodigoObjeto;
+import Compilador.Componente;
+import Compilador.Lexer;
+import Compilador.Parser;
+import Compilador.SemanticAnalizer;
+import Compilador.Simbolos;
+import ModelosTabla.ModeloTabla2;
 import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
@@ -230,6 +235,7 @@ public class VentanaPrincipal extends JFrame {
                             cadenaConsola += "Semantico Correcto\n";
                             simbolos = ans.getSymbolTable();
                             cadenaConsola+=ans.getCua();
+                            CodigoObjeto codiOb = new CodigoObjeto(ans.getListCua());
                         } else {
                             cadenaConsola += ans.getSalida();
                         }
