@@ -82,10 +82,17 @@ public class SemanticAnalizer {
                         nexToken();
                         if (componente.getToken().equals("=")) {
                             nexToken();
-                            while (!componente.getToken().equals(";")) {
+                            while (!componente.getToken().equals(";")) 
+                            {
                                 if(componente.getTipo() == Componente.IDENTIFICADOR)
-                                {                                  
-                                     arbolito.añadirNodo(new Componente(componente.getTipo(),aux.getValor(),componente.getColumna(), componente.getFila()));
+                                {     
+                                    if(matchSearch(componente.getToken()))
+                                        arbolito.añadirNodo(new Componente(componente.getTipo(),aux.getValor(),componente.getColumna(), componente.getFila()));
+                                    else
+                                    {
+                                        error = true;
+                                    salida = "Ew No puedes hacer esto";
+                                            }
                                 }
                                 else
                                 {
@@ -99,9 +106,11 @@ public class SemanticAnalizer {
                             System.out.println("Recorrido en POST-ORDEN :" + arbolito.getPost());
                             arbolito.generaCuadruplo(arbolito.raiz);
                             cuadruplo = (arbolito.getCuadruplo());
+                            arbolito.resuelve(arbolito.raiz);
+                            String cuad = arbolito.getResultado();
                             matchSearch(identificador, arbolito.getResultado());
                         }
-                    } else {
+                    } else {;
                         salida += "\tError semantico, linea " + posicion + " Solo se pueden hacer operaciones y/0 condiciones con enteros\n";
                     }
                 } else {

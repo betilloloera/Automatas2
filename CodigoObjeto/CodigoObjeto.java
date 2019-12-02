@@ -52,13 +52,9 @@ public class CodigoObjeto
                 {
                     ensamblador += "\n        MOV     AL,"+cuadruplo.getOperando1()+"\n"
                                   + "        MOV     BL,"+cuadruplo.getOperando2()+"\n"
-                                  + "        MUL     AL\n"
-                                  + "        MOV     "+cuadruplo.getVariable()+",AL\n";
-                                    
-                }
-                        
-                            
-                        
+                                  + "        MUL     BL\n"
+                                  + "        MOV     "+cuadruplo.getVariable()+",AL\n";                   
+                }                        
             }
            
         }

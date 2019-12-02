@@ -264,7 +264,7 @@ public class Parser {
         try {
             componente = componentes.get(0);
         } catch (IndexOutOfBoundsException e) {
-
+                        
         }
         declaracion_Clase();
         if (salida.equals("")) {
