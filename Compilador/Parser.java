@@ -203,10 +203,14 @@ public class Parser {
 
     private void field_Declaration() {
         Componente c = componente;
-        if (c.getTipo() == Componente.MODIFICADOR || c.getTipo() == Componente.TIPO) {
+        if (c.getTipo() == Componente.MODIFICADOR || c.getTipo() == Componente.TIPO)
+        {
+            
             variable_declaration();
+            
             c = componente;
             Acomodar(Componente.SIMBOLO_ESPECIAL, ";");
+            field_Declaration();
         }
     }
 
@@ -356,9 +360,6 @@ public class Parser {
             Avanza();
             variable_declarator();
         }
-
-        
-        
         
     }
 

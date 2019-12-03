@@ -61,6 +61,7 @@ public class SemanticAnalizer {
                         nexToken();
                         if (tipo.equals("int")) {
                             intCheck();
+                            
                         } else if (tipo.equals("boolean")) {
                             booleanCheck();
                         } else if (tipo.equals("String")) {
@@ -171,7 +172,9 @@ public class SemanticAnalizer {
         try {
             int val = Integer.parseInt(componente.getToken());
             valor = String.valueOf(val);
+            
             tamaño = 1;
+            matchSearch(identificador, valor);
             error = false;
 
         } catch (NumberFormatException e) {
