@@ -18,6 +18,7 @@ public class CodigoObjeto
     private String ensamblador;
     ArrayList<Cuadruplo> cuadrupl = new ArrayList<Cuadruplo>();
     WriteBuffer wb;
+    String ultimo = "";
     public CodigoObjeto(ArrayList<Cuadruplo> cuadruplos) 
     {
         cuadrupl = cuadruplos;
@@ -53,11 +54,23 @@ public class CodigoObjeto
                     ensamblador += "\n        MOV     AL,"+cuadruplo.getOperando1()+"\n"
                                   + "        MOV     BL,"+cuadruplo.getOperando2()+"\n"
                                   + "        MUL     BL\n"
-                                  + "        MOV     "+cuadruplo.getVariable()+",AL\n";                   
-                }                        
+                                  + "        MOV     "+cuadruplo.getVariable()+",AL\n";       
+                    break;
+                }    
+                case "/":
+                {
+                    ensamblador += "\n       MOV     AL,"+cuadruplo.getOperando1()+"\n"
+                                  + "        MOV     BL,"+cuadruplo.getOperando2()+"\n"
+                                  + "        DIV     BL\n"
+                                  + "        MOV     "+cuadruplo.getVariable()+",AL\n";        
+                    break;
+                }
             }
-           
+              ultimo = cuadruplo.getVariable();
         }
+        ensamblador += "\n       MOV     AL,"+ultimo+
+                       "\n       MOV     X,AL";    
+        
         ensamblador +="\n      .exit \n" +
 "main    ENDP \n" +
 "        END";
@@ -68,7 +81,8 @@ public class CodigoObjeto
     {
         ensamblador = "         .model small\n" +
                       "         .stack \n" +
-                      "         .data    ";
+                      "         .data    \n"+
+                      "         X       DB       0"  ;
         for(Cuadruplo c : cuadrupl)
         {
             ensamblador +="\n         "+c.getVariable()+"     DB"+"       0";

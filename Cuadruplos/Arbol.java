@@ -100,6 +100,7 @@ String t;
 	 }
         public String generaCuadruplo(Nodo<Componente> node) {
 	     if (node != null)
+              
 	      {
 	    	 String v1,v2;
 	    	 v1 = generaCuadruplo(node.izq);
@@ -171,7 +172,7 @@ String t;
         }
         public String getCuadruplo()
         {
-            cuadruplo += String.format("%15s %s %s %n","X"+cosa,":=",t);
+            cuadruplo += String.format("%15s %s %s %n","X"+"",":=",t);
             return cuadruplo;
         }
         public String getResultado()
